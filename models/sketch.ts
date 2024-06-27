@@ -21,6 +21,6 @@ const Sketch = new Schema<ISketch>({
     day: {type:Number},
     slug: {type: String}
 })
-const SketchModel = mongoose.model("sketch",Sketch)
 
-export default SketchModel
+
+export default  mongoose.models.sketch || mongoose.model("sketch",Sketch) 
