@@ -6,9 +6,6 @@ import ConnectDB from "@/libs/db_config"
 
 export async function GET(req:Request) {
     await ConnectDB()
-    const data = req.formData
-    console.log(data)
-    console.log("request")
     const res = await game.find({})
     return NextResponse.json(res)
 }

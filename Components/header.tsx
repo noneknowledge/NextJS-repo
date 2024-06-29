@@ -10,9 +10,9 @@ const Header = () =>{
 
     const [isOpen, setIsOpen] = useState(false);
     const curPath = usePathname()
-    console.log(curPath)
+
     const toggleDropdown = () => {
-        console.log("drop")
+
         setIsOpen(!isOpen);
       };
 
