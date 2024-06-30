@@ -49,13 +49,13 @@ const Header = () =>{
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
-                <Image className="h-8 w-auto" width={50} height={50} src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                <Image className="h-8 w-auto" width={50} height={50} src="https://www.shecodes.io/assets/branding/logo-shecodes-3dfa60aeab8ef361842da5a2b6d46db3af1b7afafefee3dde0a9846389de754b.png" alt="Your Company" />
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                   <Link href="/"  className={curPath !== "/"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"} >Home</Link>
-                  <Link href="/lesson" className={curPath !== "/lesson"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Lesson</Link>
+                  <Link href="/game/add" className={curPath !== "/lesson"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Add game</Link>
                   <Link href="/game" className={curPath !== "/game"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Game</Link>
                   {/* <Link href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</Link> */}
                 </div>
