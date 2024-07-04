@@ -1,5 +1,9 @@
+import Footer from "@/Components/footer";
+import NavBar from "@/Components/navbar";
+
 const notFound = () =>{
-    return(
+    return(<>
+        <NavBar />
         <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
             <p className="text-base font-semibold text-indigo-600">404</p>
@@ -11,6 +15,8 @@ const notFound = () =>{
             </div>
         </div>
         </main>
+        <Footer/>
+        </>
 
     )
 }

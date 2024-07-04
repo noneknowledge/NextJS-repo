@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import NavBar from "@/Components/navbar";
 import Footer from "@/Components/footer";
 
@@ -22,12 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
       <NextTopLoader />
-        
+        <NavBar/>
       
        {children}
- 
-       
-   
+       <Footer/>
         </body>
     </html>
   );

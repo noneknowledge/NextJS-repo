@@ -6,9 +6,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 
-const Header = () =>{
+
+const NavBar = () =>{
+
 
     const [isOpen, setIsOpen] = useState(false);
+    
+
     const curPath = usePathname()
 
     const toggleDropdown = () => {
@@ -55,8 +59,10 @@ const Header = () =>{
                 <div className="flex space-x-4">
                   {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                   <Link href="/"  className={curPath !== "/"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"} >Home</Link>
-                  <Link href="/game/add" className={curPath !== "/lesson"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Add game</Link>
+
                   <Link href="/game" className={curPath !== "/game"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Game</Link>
+                  <Link href="/game/add" className={curPath !== "/lesson"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Add game</Link>
+                  
                   {/* <Link href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</Link> */}
                 </div>
               </div>
@@ -110,4 +116,4 @@ const Header = () =>{
       )
 }
 
-export default Header;
+export default NavBar;

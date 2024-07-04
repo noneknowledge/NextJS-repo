@@ -1,7 +1,6 @@
 'use client'
 
-import { FormEvent, ReactEventHandler, useRef } from "react"
-import { text } from "stream/consumers"
+import { FormEvent, useRef } from "react"
 
 const GameForm = ({triggerPost}:any)=>{
     
@@ -43,6 +42,10 @@ const GameForm = ({triggerPost}:any)=>{
   <div className="mb-5">
     <label htmlFor="descriptioin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
     <input name="description" type="text" id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+  </div>
+  <div className="mb-5">
+    <label htmlFor="descriptioin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+    <input name="price" defaultValue={0} type="number" min={0} id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
   </div>
   
   <button type="submit" className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">

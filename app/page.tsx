@@ -1,9 +1,14 @@
-import Image from "next/image";
-import HomePage from "./home/page";
 
+import NavBar from "@/Components/navbar";
+import HomePage from "./(web)/home/page";
+import Footer from "@/Components/footer";
 
 export default function Home() {
-  return (
+  return (<>
+  <NavBar/>
     <HomePage></HomePage>
+    <Footer/>
+  </>
+  
   );
 }

@@ -5,6 +5,7 @@ interface IGame {
     title: string
     description: string
     images: string[]
+    price: number
 }
 
 
@@ -14,6 +15,7 @@ const Game = new Schema<IGame>({
     title: {type: String},
     description: {type: String},
     images: {type: []},
+    price:{type: Number}
 })
 
 
