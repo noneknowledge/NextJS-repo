@@ -8,8 +8,6 @@ import { NextRequest } from "next/server"
 export async function GET(req:NextRequest) {
     await ConnectDB()
     const res = await game.find({})
-    console.log("API ")
-    console.log(res)
     return NextResponse.json(res)
 }
 
@@ -21,11 +19,8 @@ export async function POST(req:NextRequest) {
     const price = formData.get("price")
     const description = formData.get("description")
     const rawImages = formData.getAll("images") as string[]
-    console.log('filter')
+   
     const images = rawImages.filter((image:string)=>image.length >0)
-    console.log("images from server")
-    console.log(images)
-
     await game.create({
         title:title,
         description: description,

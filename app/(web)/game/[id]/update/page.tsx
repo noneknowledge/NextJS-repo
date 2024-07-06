@@ -15,6 +15,8 @@ const UpdateGame = async ({params}:any) => {
 
     const res = await fetch("http://localhost:3000/api/category")
     const allCategories = await res.json()
+
+   
     
 
     const editGame = async (formData:FormData) =>{

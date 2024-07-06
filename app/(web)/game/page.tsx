@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 const ListGame = async ()=>{
     const response = await fetch("http://localhost:3000/api/game",{ next: { revalidate: 3600 } })
     const data = await response.json()
+    
    
     if (response.status !== 200){
         redirect("/not-found")

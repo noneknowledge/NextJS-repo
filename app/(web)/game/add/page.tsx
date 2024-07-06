@@ -1,8 +1,16 @@
 
 import GameForm from "@/Components/addGameForm"
+import { redirect } from "next/navigation"
 
-const AddGame = ()=>{
+const AddGame = async()=>{
 
+    
+    const res = await fetch("http://localhost:3000/api/category")
+    const allCategories = await res.json()
+
+    if (res.status !== 200){
+        redirect("/not-found")
+    }
     const postGame = async (formData:FormData) =>{
         'use server'
         const response = await fetch('http://localhost:3000/api/game', {
@@ -11,8 +19,6 @@ const AddGame = ()=>{
             })
 
         const data = await response.json()
-        console.log(response.status)
-        console.log("server log")
         if(response.status !== 201)
             {
                 console.log("error: " + data.message)
@@ -22,7 +28,7 @@ const AddGame = ()=>{
 
 return (<>
     
-<GameForm triggerPost={postGame}></GameForm>
+<GameForm handleForm={postGame} categories={allCategories}></GameForm>
 
 </>)
 }
