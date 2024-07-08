@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import AuthContext from "@/context/AuthContext"
+import { useContext, useEffect, useState } from "react"
 
 
 export const useDebounce = <T>(value:T, delay = 100) => {
@@ -16,4 +17,9 @@ export const useDebounce = <T>(value:T, delay = 100) => {
     },[value,delay])
     return deboundValue
 
+}
+
+export const useAuth = () =>{
+    const [state,dispatch] = useContext(AuthContext)
+    return [state,dispatch]
 }

@@ -2,7 +2,7 @@
 
 
 
-import { useDebounce } from "@/app/customHook/useDebounce"
+import { useDebounce } from "@/app/customHook"
 import { FormEvent, useEffect, useReducer, useRef, useState } from "react"
 
 
@@ -37,12 +37,12 @@ const CategorySelect = (prop:any) =>{
     const debounceSearch = useDebounce(searchValue,debouceDelay)
 
     const filterCate = (stringCompared:string) =>{
-        console.log("filter ")
+      
         let temp:any = []
         categories.map((cate:any) =>{
             if (cate.title.toUpperCase().trim().includes(stringCompared.trim().toUpperCase()))  
             {
-                console.log(cate)
+             
                 temp.push(cate)
             }
         })
@@ -116,9 +116,7 @@ const UpdateForm = (props:any) =>{
     const imgDiv = useRef<HTMLDivElement>(null)     
     const {game_cate} = props
     const {categories} = props
-    console.log("game cate main: ")
-    console.log(game_cate)
-
+   
 
     //useReducer hook
     const initialFormState = {

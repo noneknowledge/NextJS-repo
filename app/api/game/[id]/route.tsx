@@ -8,7 +8,9 @@ import ConnectDB from "@/libs/db_config"
 export async function GET(req:NextRequest, {params}:any) {
 
     const {id} = params
-    await ConnectDB()
+    if(!mongoose.connection.readyState){
+        await ConnectDB()
+    }
     try{
         
         const item = await game.findById(id).populate("categories","title _id","category")
@@ -55,7 +57,11 @@ export async function PUT(req:NextRequest, {params}:any) {
 
 export async function DELETE(req:Request, {params}:any) {
     const {id} = params
+
     try{
+        if(!mongoose.connection.readyState){
+            await ConnectDB()
+        }
         const item = await game.findOneAndDelete({_id:id})
         console.log(item)
         return NextResponse.json({message:item},{status:200})

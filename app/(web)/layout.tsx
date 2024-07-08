@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavBar from "@/Components/navbar";
 import Footer from "@/Components/footer";
-
 import NextTopLoader from 'nextjs-toploader';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,17 +17,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
+  return (<>
+
+     
       <NextTopLoader />
-        <NavBar/>
-      
-       {children}
+     
+      <NavBar/> 
+
+      {children}
+
+   
        
        <Footer/>
-        </body>
-        
-    </html>
+       </>
   );
 }

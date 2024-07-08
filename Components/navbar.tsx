@@ -4,15 +4,17 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/app/customHook";
+import { REDUCER_ACTION_TYPE } from "@/context/reducer";
+
 
 
 
 const NavBar = () =>{
 
 
-    const [isOpen, setIsOpen] = useState(false);
-    
-
+    const [isOpen, setIsOpen] = useState(false)
+    const [state,dispatch] = useAuth()
     const curPath = usePathname()
 
     const toggleDropdown = () => {
@@ -24,7 +26,15 @@ const NavBar = () =>{
     setIsOpen(false);
     };
 
+    const logOut = () =>{
+      dispatch({type:REDUCER_ACTION_TYPE.SET_LOGOUT,payload:"empty"})
+    }
+
+    
+
     return(
+
+     
     <nav className="bg-gray-800">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
@@ -62,7 +72,7 @@ const NavBar = () =>{
 
                   <Link href="/game" className={curPath !== "/game"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Game</Link>
                   <Link href="/game/add" className={curPath !== "/lesson"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Add game</Link>
-                  
+                  <Link href="/test" className={curPath !== "/lesson"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>test login</Link>
                   {/* <Link href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</Link> */}
                 </div>
               </div>
@@ -77,6 +87,13 @@ const NavBar = () =>{
               </button>
       
               {/* <!-- Profile dropdown --> */}
+              {state.token.length === 0 &&
+              <>
+                <Link href="/login" className={curPath !== "/login"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Login</Link>
+                <Link href="/register" className={curPath !== "/register"?"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white":"rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"}>Register</Link>
+                </>
+              }
+              {state.token.length > 0 &&
               <div className="relative ml-3">
                 <div>
                   <button onClick={toggleDropdown } type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
@@ -85,19 +102,17 @@ const NavBar = () =>{
                     <Image className="h-8 w-8 rounded-full" width={50} height={50} src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                   </button>
                 </div>
-    
-
                   {isOpen &&(
            
                     <div onClick={closeDropdown }className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" >
-                        <Link onClick={closeDropdown } href="/profile" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="user-menu-item-0">Your Profile</Link>
+                        <Link onClick={closeDropdown } href="/profile" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="user-menu-item-0">Your Profile: {state.name}</Link>
                         <Link onClick={closeDropdown }  href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="user-menu-item-1">Settings</Link>
-                        <Link onClick={closeDropdown }  href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem"  id="user-menu-item-2">Sign out</Link>
+                        <button onClick={logOut }   className="block px-4 py-2 text-sm text-gray-700" role="menuitem"  id="user-menu-item-2">Sign out</button>
                     </div>
                   )}
                  
         
-              </div>
+              </div>}
             </div>
           </div>
         </div>

@@ -1,12 +1,12 @@
 
 import GameContainer from "@/Components/gameContainer"
 import { redirect } from "next/navigation"
-import CategoriesPage from "../category/page"
+import CategoriesPage from "../category/categoriesSection"
+import { useAuth } from "@/app/customHook"
 
 const ListGame = async ()=>{
     const response = await fetch("http://localhost:3000/api/game",{ next: { revalidate: 3600 } })
     const data = await response.json()
-    
    
     if (response.status !== 200){
         redirect("/not-found")

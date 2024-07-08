@@ -1,6 +1,6 @@
 'use client'
 
-import { useDebounce } from "@/app/customHook/useDebounce"
+import { useDebounce } from "@/app/customHook"
 import { FormEvent, useRef, useState, useEffect } from "react"
 
 const CategorySelect = (prop:any) =>{
@@ -86,12 +86,11 @@ const GameForm = (props:any)=>{
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>{
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
-        console.log(formData.getAll("images"))
         handleForm(formData)        
     }
 
     const addMoreImg = (e:React.MouseEvent) =>{
-        console.log(e)
+        
         var input = document.createElement("input")
         input.type = "text"
         input.name = "images"
