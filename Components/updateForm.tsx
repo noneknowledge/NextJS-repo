@@ -12,6 +12,7 @@ const enum REDUCER_ACTION_TYPE {
     SET_TITLE,
     SET_DESCRIPTION,
     SET_IMAGES,
+    SET_PRICE
 
 }
 
@@ -125,7 +126,7 @@ const UpdateForm = (props:any) =>{
         description: props.description,
         images: props.images,
         price: props.price,
-        game_cate: props.game_cate
+        
         }
     
     const reducer = (state :typeof initialFormState,action:REDUCER_ACTION): typeof initialFormState=>{
@@ -134,6 +135,8 @@ const UpdateForm = (props:any) =>{
                 return {...state,title: action.payload}
             case REDUCER_ACTION_TYPE.SET_DESCRIPTION:
                 return {...state,description: action.payload}
+            case REDUCER_ACTION_TYPE.SET_PRICE:
+                return {...state,price: action.payload}
             case REDUCER_ACTION_TYPE.SET_IMAGES:
                
                 if(action.index !== undefined)
@@ -187,7 +190,7 @@ const UpdateForm = (props:any) =>{
                 <div>
                 <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                 <input  name="price" value={state.price} type="number" min={0} id="price" onChange={e=>{
-                    dispatch({type:REDUCER_ACTION_TYPE.SET_DESCRIPTION,payload:e.target.value})
+                    dispatch({type:REDUCER_ACTION_TYPE.SET_PRICE,payload:e.target.value})
                 }}
                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
          

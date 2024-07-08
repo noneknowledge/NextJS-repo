@@ -5,7 +5,7 @@ import { NextRequest } from "next/server"
 
 export async function GET(req:NextRequest) {
     await ConnectDB()
-    const res = await category.find({})
+    const res = await category.find({}).select("title _id")
     console.log("API")
     console.log(res)
     return NextResponse.json(res)

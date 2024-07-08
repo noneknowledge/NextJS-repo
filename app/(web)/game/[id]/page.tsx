@@ -11,13 +11,14 @@ const DetailPage = async({params}:any) =>{
 
     const data = await response.json()
     const game = data.message
+    console.log(game)
 
    
    
     return(
         <>  <div className="grid place-items-center">
             <h1>Detail</h1>
-            <GameDetail description={game.description} images={game.images} title={game.title} id={game._id}></GameDetail>
+            <GameDetail categories={game.categories} description={game.description} images={game.images} title={game.title} id={game._id}></GameDetail>
             </div>
         </>
     )

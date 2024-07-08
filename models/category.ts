@@ -1,15 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-//Create interface for schema model
-interface ICategory {
-    title: string
-    description: string
-    images: string[]
-    price: number
-}
-
-//Create model 
-
 const Category = new Schema({
     title: {type: String, required:true},
     description: {type: String},

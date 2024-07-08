@@ -28,7 +28,7 @@ const UpdateGame = async ({params}:any) => {
             redirect("/game")
         }
         else{
-            redirect("not-found")
+            redirect("/not-found")
         }
         
        
