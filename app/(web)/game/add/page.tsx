@@ -5,7 +5,7 @@ import { redirect } from "next/navigation"
 const AddGame = async()=>{
 
     
-    const res = await fetch("http://localhost:3000/api/category")
+    const res = await fetch("http://localhost:3000/api/category",{ next: { revalidate: 0 } })
     const allCategories = await res.json()
 
     if (res.status !== 200){
@@ -21,8 +21,12 @@ const AddGame = async()=>{
         const data = await response.json()
         if(response.status !== 201)
             {
-                console.log("error: " + data.message)
+                redirect("/not-found")
             }
+        else{
+            redirect("/game")
+        }
+        
         
     }
 

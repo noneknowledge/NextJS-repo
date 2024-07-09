@@ -1,3 +1,4 @@
+import CommentSection from "@/Components/commentSection"
 import GameDetail from "@/Components/detailGame"
 import { redirect } from 'next/navigation'
 
@@ -20,6 +21,7 @@ const DetailPage = async({params}:any) =>{
             <h1>Detail</h1>
             <GameDetail categories={game.categories} description={game.description} images={game.images} title={game.title} id={game._id}></GameDetail>
             </div>
+            <CommentSection/>
         </>
     )
 }

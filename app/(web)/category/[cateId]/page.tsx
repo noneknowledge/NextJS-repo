@@ -6,7 +6,7 @@ import { redirect } from "next/navigation"
 const CategoriesGame = async({params}:any) =>{
     const {cateId}  = params
 
-    const res = await fetch(`http://localhost:3000/api/category/${cateId}`)
+    const res = await fetch(`http://localhost:3000/api/category/${cateId}`,{ next: { revalidate: 3000 } })
     if (res.status !== 200){
         redirect("/not-found")
     }

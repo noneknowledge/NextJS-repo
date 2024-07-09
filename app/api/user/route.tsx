@@ -3,6 +3,7 @@ import ConnectDB from "@/libs/db_config";
 import mongoose from "mongoose";
 import user from "@/models/user";
 
+
 export async function GET(req:NextRequest) {
     if(!mongoose.connection.readyState){
         await ConnectDB()
@@ -17,14 +18,3 @@ export async function GET(req:NextRequest) {
 }
 
 
-export async function POST (req:NextRequest){
-    const formData = await req.formData();
-    if(!mongoose.connection.readyState){
-        await ConnectDB()
-    }
-    const newUser = new user()
-    newUser.userName = formData.get("username")
-    newUser.passWord = formData.get("password")
-    newUser.email = formData.get("email")
-    return NextResponse.json(newUser)
-}

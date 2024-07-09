@@ -13,7 +13,7 @@ const RegisterPage = () =>{
             return
         }
         
-        const response = await fetch("http://localhost:3000/api/user",
+        const response = await fetch("http://localhost:3000/api/register",
             {method:"POST",body:formData})
         
         if (response.status === 200){

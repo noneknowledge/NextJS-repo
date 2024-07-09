@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 
 const Avatar = new Schema({
     title: {type: String, required:true},
-    desription: {type: String},
+    description: {type: String},
     link: {type: String},
 })
 
