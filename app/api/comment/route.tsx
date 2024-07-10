@@ -1,0 +1,45 @@
+import { NextRequest,NextResponse } from "next/server";
+import mongoose, { mongo } from "mongoose";
+import comment from "@/models/comment";
+import ConnectDB from "@/libs/db_config";
+import { checkToken } from "@/libs/helper/verifyToken";
+
+
+
+export async function  GET(req:NextRequest) {
+    if(!mongoose.connection.readyState){
+        await ConnectDB()
+    }
+    const comments = await comment.find({})
+    return NextResponse.json(comments)
+}
+
+export async function POST(req:NextRequest) {
+    try{
+        const formData = await req.formData()
+        const token = req.cookies.get("token")?.value as string
+        
+        if(token === null){
+            return NextResponse.json("Unauthorized",{status:401})
+        }
+        checkToken(token)
+        console.log("Api/ game" + formData.get("gameid") + "user id: " + formData.get("userid"))
+        await comment.create({
+            gameId: formData.get("gameid"),
+            userId: formData.get("userid"),
+            comment: formData.get("textarea")
+        })
+
+        return NextResponse.json("Created",{status:201})
+    }
+
+    catch(e:any){
+        if(e.message === "jwt expired"){
+            const message =  e.message
+            return NextResponse.json(message ,{status:401})
+        }
+        return NextResponse.json(e.message,{status:400})
+    }
+    
+    
+}

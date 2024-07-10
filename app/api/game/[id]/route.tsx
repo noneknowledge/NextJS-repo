@@ -14,7 +14,7 @@ export async function GET(req:NextRequest, {params}:any) {
     try{
         
         const item = await game.findById(id).populate("categories","title _id","category")
-     
+        
         if (item === null)
             return NextResponse.json({message:"game not found"},{status:404})
         return NextResponse.json({message:item},{status:200})

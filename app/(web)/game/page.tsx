@@ -2,7 +2,12 @@
 import GameContainer from "@/Components/gameContainer"
 import { redirect } from "next/navigation"
 import CategoriesPage from "../category/categoriesSection"
-import { useAuth } from "@/app/customHook"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: 'Game in this web ',
+    description: 'This page might show all game in the database',
+  }
 
 const ListGame = async ()=>{
     const response = await fetch("http://localhost:3000/api/game",{ next: { revalidate: 0 } })

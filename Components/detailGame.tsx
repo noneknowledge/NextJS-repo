@@ -23,9 +23,7 @@ const GameDetail =  (props:IProps)=>{
     const {images} = props
     const {id} = props
     const {categories} = props
-    console.log(categories)
-    
-        
+            
     const [bigImg, setBigImg] = useState(images[0])
     
 

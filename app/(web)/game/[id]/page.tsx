@@ -1,6 +1,13 @@
 import CommentSection from "@/Components/commentSection"
 import GameDetail from "@/Components/detailGame"
 import { redirect } from 'next/navigation'
+import { Metadata } from "next"
+
+
+const metadata: Metadata = {
+    title: 'Game ',
+    description: "Game description",
+  }
 
 const DetailPage = async({params}:any) =>{
     const {id} = params
@@ -12,18 +19,22 @@ const DetailPage = async({params}:any) =>{
 
     const data = await response.json()
     const game = data.message
-    console.log(game)
 
+    metadata.title = 'Game '+ game.title
+    metadata.description = game.description
+    
    
    
     return(
         <>  <div className="grid place-items-center">
-            <h1>Detail</h1>
+           
             <GameDetail categories={game.categories} description={game.description} images={game.images} title={game.title} id={game._id}></GameDetail>
             </div>
-            <CommentSection/>
+            <CommentSection gameId={game._id}/>
         </>
     )
 }
+
+export {metadata}
 
 export default DetailPage
