@@ -1,5 +1,5 @@
 'use client'
-import { useAuth } from "@/app/customHook"
+import { useGlobalValue } from "@/app/customHook"
 import { REDUCER_ACTION_TYPE } from "@/context/reducer"
 import { useState } from "react"
 
@@ -7,7 +7,7 @@ const TestPage = () =>{
 
 
     const [input,setInput] = useState("")
-    const [state,dispatch] = useAuth()
+    const [state,dispatch] = useGlobalValue()
     const handleForm = (e:any) =>{
         e.preventDefault()
         dispatch({type:REDUCER_ACTION_TYPE.SET_NAME,payload:input})

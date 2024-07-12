@@ -34,7 +34,7 @@ export async function PUT(req:NextRequest, {params}:any) {
     
     const {id} = params
     const formData = await req.formData();
-    console.log(formData.get("title"))
+  
  
     try{
         const update= {title: formData.get("title"),description:formData.get("description"),
@@ -63,7 +63,7 @@ export async function DELETE(req:Request, {params}:any) {
             await ConnectDB()
         }
         const item = await game.findOneAndDelete({_id:id})
-        console.log(item)
+       
         return NextResponse.json({message:item},{status:200})
     }
     catch (err){

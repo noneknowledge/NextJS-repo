@@ -41,6 +41,7 @@ const GameDetail =  (props:IProps)=>{
     
     <div className="grid grid-cols-2 gap-4 w-4/5 my-10">
     <article>
+        
     <h1 className="text-center text-5xl p-3 m-3 box-decoration-slice bg-gradient-to-r from-indigo-600 to-pink-500 text-white px-2 ">
         {title}</h1>
     

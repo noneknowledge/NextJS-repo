@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from 'nextjs-toploader';
-import AuthProvider from "@/context/AuthProvider";
+import GlobalProvider from "@/context/GlobalProvider";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <NextTopLoader />
-    <AuthProvider>
+  
+    <GlobalProvider>
+
     {children}
-    </AuthProvider>
+    </GlobalProvider>
 
   
         </body>

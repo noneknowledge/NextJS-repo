@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import NavBar from "@/Components/navbar";
 import Footer from "@/Components/footer";
 import NextTopLoader from 'nextjs-toploader';
+import NotificationBar from "@/Components/notification";
+
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,7 +25,7 @@ export default function RootLayout({
       <NextTopLoader />
      
       <NavBar/> 
-
+      <NotificationBar />
       {children}
 
    

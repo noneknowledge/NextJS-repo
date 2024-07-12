@@ -32,7 +32,7 @@ export async function POST(req:NextRequest) {
         price: price,
         categories:categories
     })
-    console.log("request")
+   
     const res = "post response " + title + description + images
     return NextResponse.json({message:res},{status:201})
 }

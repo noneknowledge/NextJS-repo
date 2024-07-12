@@ -1,11 +1,9 @@
 'use client'
 
 
-import { useAuth } from "@/app/customHook"
+import { useGlobalValue, useLocalStorage } from "@/app/customHook"
 import { REDUCER_ACTION_TYPE } from "@/context/reducer"
-import { Metadata } from "next"
 import Image from "next/image"
-
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -13,7 +11,8 @@ import { useState } from "react"
 
 
 const LoginPage = ()=>{
-    const [state,dispatch] = useAuth()
+    const [state,dispatch] = useGlobalValue()
+    const [user,setUser] = useLocalStorage("user")
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const postLogin = async(formValue:FormData) =>{
@@ -27,15 +26,15 @@ const LoginPage = ()=>{
       const response = await postLogin(formData)
       const message = await response.json()
       if(response.status === 200){
-        
-        alert("login success")
         const token = message.token
         const username = message.username
         const id = message.id
+        const avatar = message.avatar
+        setUser({id,username,avatar})
         dispatch({type: REDUCER_ACTION_TYPE.SET_LOGIN, put: {
-          token:token, name: username, id: id
+          token:token, name: username, id: id,error:""
         }})
-        return router.push("/profile")
+        return router.push("/")
         //store token in useContext or cookie
       }
       else{

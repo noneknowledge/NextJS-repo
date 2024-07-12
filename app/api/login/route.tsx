@@ -5,15 +5,15 @@ import user from "@/models/user";
 import { checkPassWord } from "@/libs/helper/hash";
 import { signToken,checkToken } from "@/libs/helper/verifyToken";
 
-const secrect = process.env.SECRECT_KEY as string
+
 
 
 export async function GET (req:NextRequest){
    
     const token = req.cookies.get("token")?.value as string
     
-    if(token === null){
-        return NextResponse.json({message:"Unauthorized" },{status:401})
+    if(token === null || token === undefined){
+        return NextResponse.json("Unauthorized",{status:401})
     }
     try{
         const decode = checkToken(token)
@@ -52,7 +52,7 @@ export async function POST(req:NextRequest) {
             if(result){
                 //Asign JWT here 
                 const token = signToken({userName:loginUser.userName,id:loginUser._id})
-                const response = NextResponse.json({token:token,username:loginUser.userName,id:loginUser._id},{status:200})
+                const response = NextResponse.json({token:token,username:loginUser.userName,id:loginUser._id,avatar:loginUser.avatar},{status:200})
                 response.cookies.set("token",token)
                 return response
 
