@@ -43,6 +43,23 @@ export const useComment = (gameId:string) => {
       }
 }
 
+export const useUser = () => {
+    const fetcher = (url:string) => fetch(url).then(res => res.json())
+    const { data, error, isLoading } = useSWR(`/api/user`, fetcher,{
+        refreshInterval: 5000,  
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnReconnect: false
+    })
+    return {
+        data: data,
+        isLoading,
+        isError: error
+      }
+}
+
+
+
 const initStatusCode:IStatusCode = {
     statusCode:1,
     message:"1",
