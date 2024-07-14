@@ -25,7 +25,7 @@ const ListGame = async ()=>{
         {
             data.map((game:any,index:number) =>
             { 
-                return  <GameContainer key={game._id} description={game.description} images={game.images} title={game.title} id={game._id}></GameContainer>
+                return  <GameContainer price={game.price} key={game._id} description={game.description} images={game.images} title={game.title} id={game._id}></GameContainer>
         }
         )
         }

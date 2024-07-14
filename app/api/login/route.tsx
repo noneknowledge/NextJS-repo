@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/libs/db_config";
 import mongoose from "mongoose";
-import user from "@/models/user";
+import player from "@/models/player";
 import { checkPassWord } from "@/libs/helper/hash";
 import { signToken,checkToken } from "@/libs/helper/verifyToken";
 
@@ -43,7 +43,7 @@ export async function POST(req:NextRequest) {
         }
         const userName = formData.get("username") as string
         const passWord = formData.get("password") as string
-        const loginUser:any = await user.findOne({userName:userName})
+        const loginUser:any = await player.findOne({userName:userName})
         if(!loginUser){
             return NextResponse.json({message:"User not found"},{status:400})
         }

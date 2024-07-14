@@ -1,6 +1,9 @@
 
 
 import GlobalContext from "@/context/GlobalContext"
+import { REDUCER_ACTION_TYPE } from "@/context/reducer"
+
+import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
 import useSWR from "swr"
 
@@ -40,6 +43,53 @@ export const useComment = (gameId:string) => {
       }
 }
 
+const initStatusCode:IStatusCode = {
+    statusCode:1,
+    message:"1",
+    count:0
+}
+
+export const useHandleStatusCode = ()=>{
+    const [state,dispatch] = useGlobalValue()
+    const router = useRouter()
+    const [statusCode,setStatus] = useState<IStatusCode>(initStatusCode)
+
+    const makeNoti = (text:string) =>{
+        dispatch({type:REDUCER_ACTION_TYPE.SET_NOTI,payload:text})
+    }
+    
+    useEffect(()=>{
+       
+        switch(statusCode.statusCode){
+            case(1):
+                break
+            case(200):
+                makeNoti(statusCode.message)
+                break
+            case(201):
+                makeNoti(statusCode.message)
+                break
+            case(400):
+                makeNoti(statusCode.message)
+                break
+            case(401):
+                makeNoti(statusCode.message)
+                router.push("/login")
+                break
+            default:
+                makeNoti("Didn't handle this status code. "+ statusCode.message)
+                break
+        }
+        
+    },[statusCode])
+
+    
+    
+    return [statusCode,setStatus] as const
+
+
+}
+
 export const useLocalStorage = (keyName:string) =>{
         
       const getStorageItem = (key:string) =>{
@@ -64,7 +114,7 @@ export const useLocalStorage = (keyName:string) =>{
       
 
       useEffect(() => {
-        console.log("change value log in customhook")
+     
         const stringifiedValue = JSON.stringify(value)
         localStorage.setItem(keyName, stringifiedValue)
       }, [value])

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/libs/db_config";
 import mongoose from "mongoose";
-import user from "@/models/user";
+import player from "@/models/player";
 
 
 export async function GET(req:NextRequest) {
@@ -9,7 +9,7 @@ export async function GET(req:NextRequest) {
         await ConnectDB()
     }
     try{
-        const data = await user.find({})
+        const data = await player.find({}).select("userName")
         return NextResponse.json(data)
     }
     catch(err:any){
@@ -17,4 +17,16 @@ export async function GET(req:NextRequest) {
     }
 }
 
+export async function POST(req:NextRequest) {
+    if(!mongoose.connection.readyState){
+        await ConnectDB()
+    }
+    try{
+        const data = await player.find({}).select("userName")
+        return NextResponse.json(data)
+    }
+    catch(err:any){
+        return NextResponse.json(err.message)
+    }
+}
 

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import game from "@/models/game"
-
+import player from "@/models/player"
 import mongoose from "mongoose"
 import ConnectDB from "@/libs/db_config"
+import { checkToken } from "@/libs/helper"
 
 
 export async function GET(req:NextRequest, {params}:any) {
@@ -53,7 +54,48 @@ export async function PUT(req:NextRequest, {params}:any) {
     
 }
 
+export async function PATCH(req:NextRequest,{params}:any) {
+    const {id} = params
+    const token = req.cookies.get("token")?.value as string
+    if(token === null){
+        return NextResponse.json("Unauthorized",{status:401})
+    }
+    try{
+        const decode = checkToken(token)
+        const userId = decode.id 
+        const item = await player.findOne({_id:userId},)
+   
+    
+        if (item.wishList.includes(id))
+        {
+            var temp = []
+            console.log("remove")
+            temp = item.wishList.filter((x:any) => x.toString() !== id)
+            item.wishList = temp
+        }
+        else{
+            item.wishList.push(id)
+        }
+     
+        console.log(item.wishList)
 
+        await item.save()
+      
+        const message = "Update favorite game success"
+        return NextResponse.json(message)
+
+    }   
+    catch(e:any){
+    
+        if(e.message.includes("jwt"))
+            return NextResponse.json(e.message,{status:401})
+        return NextResponse.json(e.message,{status:400})
+    }
+        
+        
+    
+    
+}
 
 export async function DELETE(req:Request, {params}:any) {
     const {id} = params

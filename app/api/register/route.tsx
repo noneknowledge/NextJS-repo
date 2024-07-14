@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/libs/db_config";
 import mongoose from "mongoose";
-import user from "@/models/user";
+import player from "@/models/player";
 import { hashPassWord } from "@/libs/helper/hash";
 
 
@@ -10,7 +10,7 @@ export async function POST (req:NextRequest){
     if(!mongoose.connection.readyState){
         await ConnectDB()
     }
-    const newUser = new user()
+    const newUser = new player()
     const passWord = formData.get("password") as string
     const hash = await hashPassWord(passWord)
 

@@ -34,10 +34,9 @@ export async function POST(req:NextRequest) {
     }
 
     catch(e:any){
-        if(e.message === "jwt expired"){
-            const message =  e.message
-            return NextResponse.json(message ,{status:401})
-        }
+    
+        if(e.message.includes("jwt"))
+            return NextResponse.json(e.message,{status:401})
         return NextResponse.json(e.message,{status:400})
     }
     

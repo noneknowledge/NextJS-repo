@@ -30,7 +30,7 @@ const DetailPage = async({params}:any) =>{
            
             <GameDetail categories={game.categories} description={game.description} images={game.images} title={game.title} id={game._id}></GameDetail>
             </div>
-            <h1>Tach phan doc localstorage ra component nho va doc sau khi load xong</h1>
+           
             <CommentSection gameId={game._id}/>
         </>
     )

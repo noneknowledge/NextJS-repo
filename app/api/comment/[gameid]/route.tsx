@@ -27,7 +27,7 @@ export async function DELETE(req:NextRequest,{params: {gameid}}:any) {
     const token = req.cookies.get("token")?.value as string
     
     if(token === null || token === undefined){
-        return NextResponse.json("Unauthorized",{status:401})
+        return NextResponse.json({message:"Unauthorized"},{status:401})
     }
 
     try{
@@ -41,7 +41,7 @@ export async function DELETE(req:NextRequest,{params: {gameid}}:any) {
         return NextResponse.json({message:"No content",deleted})
     }
     catch(e:any){
-        return NextResponse.json(e.message)
+        return NextResponse.json({message:e.message})
     }
    
 }
@@ -68,6 +68,8 @@ export async function POST(req:NextRequest,{params: {gameid}}:any) {
         return NextResponse.json("updated",{status:201})
     }
     catch(e:any){
+        if(e.message.includes("jwt"))
+            return NextResponse.json(e.message,{status:401})
         return NextResponse.json(e.message)
     }
    
