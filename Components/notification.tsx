@@ -22,7 +22,7 @@ const NotificationBar = () =>{
     },[state])
     const dismiss = () =>{
         setShow(false)
-        // dispatch({type:REDUCER_ACTION_TYPE.SET_NOTI,payload:""})
+        
     }
 
 

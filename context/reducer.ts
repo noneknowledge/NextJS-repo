@@ -1,11 +1,9 @@
-import { stat } from "fs"
-import { useReducer } from "react"
 
 export const enum REDUCER_ACTION_TYPE {
     SET_LOGIN,
-    SET_NAME,
     SET_LOGOUT,
-    SET_NOTI
+    SET_NOTI,
+    SET_ERROR
     
 
 }
@@ -13,31 +11,29 @@ export const enum REDUCER_ACTION_TYPE {
 type REDUCER_ACTION = {
     type: REDUCER_ACTION_TYPE
     payload?:string
-    put?: typeof initialState
+    put?: IinitialReducer
 }
 
 
 
-export const initialState = {
-    token: "",
-    name: "",
-    id: "",
+export const initialState:IinitialReducer ={
     error: "",
-    }
+    logged:false,
+    avatar: "",
+    username: "",
+    notiCount: 0,
+    cartCount: 0,
+}
 
 
-const reducer = (state: typeof initialState,action: REDUCER_ACTION): typeof initialState =>{
+const reducer = (state: IinitialReducer,action: REDUCER_ACTION): IinitialReducer =>{
     switch(action.type){
         case(REDUCER_ACTION_TYPE.SET_LOGIN):
             if (action.put)
             return action.put
-        case(REDUCER_ACTION_TYPE.SET_NAME):
-            if (action.payload)
-            return {...state,name: action.payload}
-            return state
         case(REDUCER_ACTION_TYPE.SET_LOGOUT):
             return {...initialState}
-        case(REDUCER_ACTION_TYPE.SET_NOTI):
+        case(REDUCER_ACTION_TYPE.SET_ERROR):
             if (action.payload)
             return {...state,error: action.payload}
             return state

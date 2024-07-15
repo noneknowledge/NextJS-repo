@@ -235,7 +235,7 @@ const CommentSectionLocalStorage = ({gameId}:any) =>{
         }
 
         const makeNoti = (text:string) =>{
-            dispatch({type:REDUCER_ACTION_TYPE.SET_NOTI,payload:text})
+            dispatch({type:REDUCER_ACTION_TYPE.SET_ERROR,payload:text})
         }
        
     

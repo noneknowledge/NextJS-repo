@@ -72,7 +72,7 @@ export const useHandleStatusCode = ()=>{
     const [statusCode,setStatus] = useState<IStatusCode>(initStatusCode)
 
     const makeNoti = (text:string) =>{
-        dispatch({type:REDUCER_ACTION_TYPE.SET_NOTI,payload:text})
+        dispatch({type:REDUCER_ACTION_TYPE.SET_ERROR,payload:text})
     }
     
     useEffect(()=>{
@@ -108,7 +108,6 @@ export const useHandleStatusCode = ()=>{
 }
 
 export const useLocalStorage = (keyName:string) =>{
-        
       const getStorageItem = (key:string) =>{
             'use client'
             const storedValue = localStorage.getItem(key)
@@ -122,14 +121,11 @@ export const useLocalStorage = (keyName:string) =>{
                     return storedValue
                 }
             }
-            return null
-            
+            return null         
       }
       
       const [value, setValue] = useState(getStorageItem(keyName))
       
-      
-
       useEffect(() => {
      
         const stringifiedValue = JSON.stringify(value)

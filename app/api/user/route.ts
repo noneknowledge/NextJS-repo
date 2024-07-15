@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/libs/db_config";
 import mongoose from "mongoose";
 import player from "@/models/player";
-import { checkToken } from "@/libs/helper";
+import { checkToken } from "@/libs/helper/verifyToken";
 import comment from "@/models/comment";
 
 
@@ -16,8 +16,8 @@ export async function GET(req:NextRequest) {
         }
         const decode = checkToken(token)
         const {id} = decode
-        const user = await player.findById(id).select("userName avatar email fullName friends").populate("wishList","images title price").populate("game")
-        .populate("friends")
+        const user = await player.findById(id).select("userName avatar email fullName").populate("wishList","images title price").populate("game")
+        .populate("friends", "userName")
 
         return NextResponse.json(user,{status:201})
     }

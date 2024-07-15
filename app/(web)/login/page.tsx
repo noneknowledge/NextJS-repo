@@ -6,8 +6,7 @@ import { REDUCER_ACTION_TYPE } from "@/context/reducer"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-
-
+import { initialState } from "@/context/reducer"
 
 
 const LoginPage = ()=>{
@@ -31,16 +30,13 @@ const LoginPage = ()=>{
         const id = message.id
         const avatar = message.avatar
         setUser({id,username,avatar})
-        dispatch({type: REDUCER_ACTION_TYPE.SET_LOGIN, put: {
-          token:token, name: username, id: id,error:""
-        }})
-        return router.push("/")
-        //store token in useContext or cookie
+        const loggedUser = {...initialState,avatar:avatar,username:username,logged:true} 
+        dispatch({type:REDUCER_ACTION_TYPE.SET_LOGIN,put:loggedUser})
+        return router.push("/game")
+      
       }
       else{
         alert("login fail")
-        
-        console.log(message)
         setLoading(false)
        
       }

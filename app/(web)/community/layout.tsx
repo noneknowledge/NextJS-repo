@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import NavBar from "@/Components/navbar";
+import Footer from "@/Components/footer";
 import NextTopLoader from 'nextjs-toploader';
-import GlobalProvider from "@/context/GlobalProvider";
-import { useEffect } from "react";
+import NotificationBar from "@/Components/notification";
+import ChatServer from "@/Components/allChat";
+
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,19 +20,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-  
-    <GlobalProvider>
-
-    {children}
-    </GlobalProvider>
-
-  
-        </body>
-    </html>
+  return (<>
+        <aside className="flex">
+        <ChatServer />
+        {children}
+        </aside>
+       </>
   );
 }

@@ -71,7 +71,6 @@ const GameContainer = (props:IProps) =>{
                 
             </div>
         </div>
-
     </div>)
 }
 

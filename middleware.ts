@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
       return NextResponse.next()
     }
     else{
-      return NextResponse.redirect(new URL('/home', request.url))
+      return NextResponse.redirect(new URL('/login', request.url))
     }   
 }
  
