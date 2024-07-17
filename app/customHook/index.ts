@@ -1,7 +1,7 @@
 
 
 import GlobalContext from "@/context/GlobalContext"
-import { REDUCER_ACTION_TYPE } from "@/context/reducer"
+import reducer, { REDUCER_ACTION_TYPE } from "@/context/reducer"
 
 import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
@@ -43,9 +43,26 @@ export const useComment = (gameId:string) => {
       }
 }
 
-export const useUser = () => {
+export const useCart = () => {
     const fetcher = (url:string) => fetch(url).then(res => res.json())
-    const { data, error, isLoading } = useSWR(`/api/user`, fetcher,{
+    const { data, error, isLoading } = useSWR(`/api/cart/`, fetcher,{
+        refreshInterval: 1000,  
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnReconnect: false
+    })
+    return {
+        items: data,
+        isLoading,
+        isError: error
+      }
+}
+
+export const useUser = (userId=null) => {
+    const url:string = userId ? `/api/user/${userId}`: "/api/user" 
+    console.log(url)
+    const fetcher = (url:string) => fetch(url).then(res => res.json())
+    const { data, error, isLoading } = useSWR(url, fetcher,{
         refreshInterval: 5000,  
         revalidateOnFocus: false,
         revalidateIfStale: false,
@@ -60,41 +77,36 @@ export const useUser = () => {
 
 
 
-const initStatusCode:IStatusCode = {
-    statusCode:1,
-    message:"1",
-    count:0
-}
+
 
 export const useHandleStatusCode = ()=>{
     const [state,dispatch] = useGlobalValue()
     const router = useRouter()
-    const [statusCode,setStatus] = useState<IStatusCode>(initStatusCode)
+    const [statusCode,setStatus] = useState<number>(1)
 
     const makeNoti = (text:string) =>{
         dispatch({type:REDUCER_ACTION_TYPE.SET_ERROR,payload:text})
     }
     
     useEffect(()=>{
-       
-        switch(statusCode.statusCode){
+        switch(statusCode){
             case(1):
                 break
             case(200):
-                makeNoti(statusCode.message)
+                makeNoti("Ok")
                 break
             case(201):
-                makeNoti(statusCode.message)
+                makeNoti("Created")
                 break
             case(400):
-                makeNoti(statusCode.message)
+                makeNoti("Bad request")
                 break
             case(401):
-                makeNoti(statusCode.message)
+                makeNoti("Unauthorized/ Token Expired")
                 router.push("/login")
                 break
             default:
-                makeNoti("Didn't handle this status code. "+ statusCode.message)
+                makeNoti("Didn't handle this status code. ")
                 break
         }
         
@@ -106,6 +118,20 @@ export const useHandleStatusCode = ()=>{
 
 
 }
+
+export const useLocalCart = (localStorageKey:string) =>{
+    const [user,setUser] = useLocalStorage(localStorageKey)
+    const [state,dispatch] = useGlobalValue()
+    const [value,setValue] = useState(user.cart)
+    useEffect(()=>{
+        setUser({...user,cart:value})
+        dispatch({type:REDUCER_ACTION_TYPE.SET_CART,count:value})
+    },[value])
+
+    return [value,setValue]
+
+}
+
 
 export const useLocalStorage = (keyName:string) =>{
       const getStorageItem = (key:string) =>{

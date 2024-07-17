@@ -5,19 +5,31 @@ import { useGlobalValue, useLocalStorage } from "@/app/customHook"
 import { REDUCER_ACTION_TYPE } from "@/context/reducer"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { initialState } from "@/context/reducer"
 
+const LoginPage = () =>{
+  const [isLoading, setLoading] = useState(true)
+  useEffect(()=>{setLoading(false)},[
+  ])
+  return(<>
+    {!isLoading && <Login />}
+  </>)
 
-const LoginPage = ()=>{
+}
+
+const Login = ()=>{
     const [state,dispatch] = useGlobalValue()
     const [user,setUser] = useLocalStorage("user")
+   
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const postLogin = async(formValue:FormData) =>{
       return await fetch("http://localhost:3000/api/login",{method:"POST",body:formValue})
     }
-
+    useEffect(()=>{
+      setUser(null)
+    },[])
     const Login = async(e:any) =>{
       setLoading(true)
       e.preventDefault()
@@ -25,12 +37,13 @@ const LoginPage = ()=>{
       const response = await postLogin(formData)
       const message = await response.json()
       if(response.status === 200){
-        const token = message.token
-        const username = message.username
-        const id = message.id
-        const avatar = message.avatar
-        setUser({id,username,avatar})
-        const loggedUser = {...initialState,avatar:avatar,username:username,logged:true} 
+    
+        const {username} = message
+        const {id} = message
+        const {avatar} = message
+        const {cart} = message
+        setUser({id,username,avatar,cart})
+        const loggedUser = {...initialState,avatar:avatar,username:username,logged:true,cartCount:cart} 
         dispatch({type:REDUCER_ACTION_TYPE.SET_LOGIN,put:loggedUser})
         return router.push("/game")
       
@@ -68,7 +81,7 @@ const LoginPage = ()=>{
       <div>
         <label htmlFor="usename" className="block text-sm font-medium leading-6 text-gray-900">UserName</label>
         <div className="mt-2">
-          <input id="usename" name="username" type="text" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+          <input id="usename" name="username" type="text" required className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
         </div>
       </div>
 
@@ -100,6 +113,8 @@ const LoginPage = ()=>{
     )
 
 }
+
+
 export default LoginPage
 
 

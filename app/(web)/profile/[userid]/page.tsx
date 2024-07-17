@@ -3,6 +3,7 @@
 import { useUser } from "@/app/customHook"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 
 const AboutSection = (props:any) =>{
@@ -212,13 +213,11 @@ const MyProfile = (props:any) =>{
 }
 
 
-const ProfilePage = () =>{
+const ProfilePage = ({params:{userid}}:any) =>{
     const width = 100
     const height = 100
-
-    const {data,isLoading,isError} = useUser()
+    const {data,isLoading,isError} = useUser(userid)
     
-  
 
     if(isLoading)
         return(<> Loading...
@@ -230,6 +229,7 @@ const ProfilePage = () =>{
         </>)
 
     const {avatar, fullName, userName, email, wishList, game} = data
+    
 
     return (<>
 <div className="bg-gray-100">

@@ -80,16 +80,17 @@ export async function PATCH(req:NextRequest,{params}:any) {
         console.log(item.wishList)
 
         await item.save()
-      
-        const message = "Update favorite game success"
+        
+
+        const message = {text: "Update favorite game success",count:item.wishList.length}
         return NextResponse.json(message)
 
     }   
     catch(e:any){
-    
+        
         if(e.message.includes("jwt"))
-            return NextResponse.json(e.message,{status:401})
-        return NextResponse.json(e.message,{status:400})
+            return NextResponse.json({message:e.message},{status:401})
+        return NextResponse.json({message: e.message},{status:400})
     }
         
         

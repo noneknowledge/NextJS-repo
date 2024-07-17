@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useGlobalValue, useHandleStatusCode, useLocalStorage } from "@/app/customHook";
+import { useGlobalValue, useLocalStorage } from "@/app/customHook";
 import { REDUCER_ACTION_TYPE } from "@/context/reducer";
 import { initialState } from "@/context/reducer";
 
@@ -16,25 +16,27 @@ const AvatarSection = () =>{
       const [user,setUser] = useLocalStorage("user")
       const [state,dispatch] = useGlobalValue()
 
+      
+
       const toggleDropdown = () => {
         setIsOpen(!isOpen);
       };
 
-    const closeDropdown = () => {
-    setIsOpen(false);
-    };
-      const [isOpen, setIsOpen] = useState(false)
-      const logOut = () =>{
-        setUser(null)
-        dispatch({type:REDUCER_ACTION_TYPE.SET_LOGOUT})
-        router.push("/")
-        
-      }
+      const closeDropdown = () => {
+      setIsOpen(false);
+      };
+        const [isOpen, setIsOpen] = useState(false)
+        const logOut = () =>{
+          setUser(null)
+          dispatch({type:REDUCER_ACTION_TYPE.SET_LOGOUT})
+          router.push("/")
+          
+        }
 
 
     useEffect(()=>{
       if(user){
-        const loggedUser = {...initialState,avatar:user.avatar,username:user.username,logged:true} 
+        const loggedUser = {...initialState,avatar:user.avatar,username:user.username,logged:true,cartCount:user.cart} 
        
         dispatch({type:REDUCER_ACTION_TYPE.SET_LOGIN,put:loggedUser})
       }
@@ -50,14 +52,17 @@ const AvatarSection = () =>{
 
               {state.logged &&
               <>
-              <button type="button" className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              <Link href='/cart' className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span className="absolute -inset-1.5"></span>
-                <span className="sr-only">View notifications</span>
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                </svg>
-                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">20</div>
-              </button>
+                <div className="relative py-2">
+                  <div className="t-0 absolute left-3">
+                    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">{state.cartCount}</p>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="file: mt-4 h-6 w-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                  </svg>
+                </div>
+              </Link>
               <div className="relative ml-3">
                 <div>
                   <button onClick={toggleDropdown } type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">

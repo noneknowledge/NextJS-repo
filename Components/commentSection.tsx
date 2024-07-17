@@ -3,10 +3,8 @@
 import { useGlobalValue, useComment, useLocalStorage, useHandleStatusCode } from "@/app/customHook"
 import CommentSkeleton from "./commentSkeleton"
 import { useEffect, useState } from "react"
-import { formatDateToLong } from "@/libs/helper/formatDate"
+import { formatDateToLong } from "@/libs/helper/myTools"
 import { REDUCER_ACTION_TYPE } from "@/context/reducer"
-
-
 
 
 const initStatusCode:IStatusCode = {
@@ -19,7 +17,7 @@ const initStatusCode:IStatusCode = {
 const CommentArea = (props:any) => {
     const {id,gameId,handleNoti} = props
     const  [statusCode,setStatus] = useHandleStatusCode()
-    const [IStatusCode,setIStatusCode] = useState<IStatusCode>(statusCode)
+    const [IStatusCode,setIStatusCode] = useState<number>(statusCode)
 
     useEffect(()=>{
         setStatus(IStatusCode)
@@ -37,12 +35,8 @@ const CommentArea = (props:any) => {
         })
         const message = await res.json()
 
-        const newStatusCode:IStatusCode = {
-            statusCode:res.status,
-            message:message,
-            count:IStatusCode.count + 1
-        }
-        setIStatusCode(newStatusCode)
+     
+        setIStatusCode(res.status)
 
         // if(res.status === 201){  
         //     handleNoti("Post comment success")

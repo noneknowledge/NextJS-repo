@@ -52,7 +52,7 @@ export async function POST(req:NextRequest) {
             if(result){
                 //Asign JWT here 
                 const token = signToken({userName:loginUser.userName,id:loginUser._id})
-                const response = NextResponse.json({token:token,username:loginUser.userName,id:loginUser._id,avatar:loginUser.avatar},{status:200})
+                const response = NextResponse.json({username:loginUser.userName,id:loginUser._id,avatar:loginUser.avatar,cart:loginUser.wishList.length},{status:200})
                 response.cookies.set("token",token)
                 return response
 
