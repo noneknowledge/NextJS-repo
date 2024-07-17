@@ -29,7 +29,15 @@ export const useGlobalValue = () =>{
 }
 
 export const useComment = (gameId:string) => {
-    const fetcher = (url:string) => fetch(url).then(res => res.json())
+    const fetcher = (url:string) => fetch(url).then(res => {
+        const successStatus = [200,201]
+        if(successStatus.includes(res.status)){
+            return res.json()
+        }
+        else{
+            throw new Error("JWT expired")
+        }
+    })
     const { data, error, isLoading } = useSWR(`/api/comment/${gameId}`, fetcher,{
         refreshInterval: 5000,  
         revalidateOnFocus: false,
@@ -44,7 +52,18 @@ export const useComment = (gameId:string) => {
 }
 
 export const useCart = () => {
-    const fetcher = (url:string) => fetch(url).then(res => res.json())
+    const fetcher = (url:string) => fetch(url).then(res => {
+        const successStatus = [200,201]
+        if(successStatus.includes(res.status)){
+            return res.json()
+        }
+        else{
+            throw new Error("JWT expired")
+        }
+        
+    }
+
+       )
     const { data, error, isLoading } = useSWR(`/api/cart/`, fetcher,{
         refreshInterval: 1000,  
         revalidateOnFocus: false,
@@ -61,7 +80,15 @@ export const useCart = () => {
 export const useUser = (userId=null) => {
     const url:string = userId ? `/api/user/${userId}`: "/api/user" 
     console.log(url)
-    const fetcher = (url:string) => fetch(url).then(res => res.json())
+    const fetcher = (url:string) => fetch(url).then(res => {
+        const successStatus = [200,201]
+        if(successStatus.includes(res.status)){
+            return res.json()
+        }
+        else{
+            throw new Error("JWT expired")
+        }
+    })
     const { data, error, isLoading } = useSWR(url, fetcher,{
         refreshInterval: 5000,  
         revalidateOnFocus: false,

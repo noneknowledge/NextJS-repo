@@ -29,6 +29,8 @@ const Login = ()=>{
     }
     useEffect(()=>{
       setUser(null)
+      dispatch({type:REDUCER_ACTION_TYPE.SET_LOGOUT})
+
     },[])
     const Login = async(e:any) =>{
       setLoading(true)
