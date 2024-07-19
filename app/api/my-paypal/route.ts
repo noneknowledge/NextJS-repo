@@ -1,20 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PayPalAuth } from "./paypalAction";
+import { createOrder } from "./paypalAction";
 
 
 
-export async function GET(req:NextRequest) {
-    const res:IAuthResponse = await PayPalAuth()
+export async function POST(req:NextRequest){    
 
-    return NextResponse.json(res)
-}
+    const {cart} = await req.json()  
+    var total = 0
+    cart.map((cart:ICart)=>total += cart.price)
+  
+    const amount:IAmount = {
+        value:total,
+        currency_code: "USD",
+        breakdown:{
+            item_total:{
+                value:total,
+                currency_code: "USD",
+            }       
+        }
+    } 
+    const purchase_unit:IPurchaseUnit = {
+        reference_id: "DH " + Date.now(),
+        items: [],
+        amount:amount
+    }
 
-export async function POST(req:NextRequest){
-
+    cart.map((x:ICart)=>{
+        var item:IItem = {
+            name:x.title,
+            quantity: 1,
+            unit_amount:{
+                value:x.price,
+                currency_code:"USD"
+            },
+           
+        }
+        purchase_unit.items.push(item)
+    })
     
-    console.log("body")
-    console.log(await req.json())
-    console.log("body")
+    const res = await createOrder([purchase_unit])
+    const message = await res.json()
 
-    return NextResponse.json("dw")
+    console.log("capture orderID")
+    console.log(message.id)
+
+
+    return NextResponse.json(message)
 }

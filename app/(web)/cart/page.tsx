@@ -3,9 +3,6 @@
 import Cart from "./cartItem"
 
 const CartPage = () => {
-
-
-
     
     return(<>
         {   <div className="py-10 grid place-items-center">

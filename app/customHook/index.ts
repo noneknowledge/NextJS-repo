@@ -65,7 +65,7 @@ export const useCart = () => {
 
        )
     const { data, error, isLoading } = useSWR(`/api/cart/`, fetcher,{
-        refreshInterval: 1000,  
+        refreshInterval: 5000,  
         revalidateOnFocus: false,
         revalidateIfStale: false,
         revalidateOnReconnect: false
@@ -79,7 +79,7 @@ export const useCart = () => {
 
 export const useUser = (userId=null) => {
     const url:string = userId ? `/api/user/${userId}`: "/api/user" 
-    console.log(url)
+
     const fetcher = (url:string) => fetch(url).then(res => {
         const successStatus = [200,201]
         if(successStatus.includes(res.status)){
@@ -136,6 +136,7 @@ export const useHandleStatusCode = ()=>{
                 makeNoti("Didn't handle this status code. ")
                 break
         }
+        
         
     },[statusCode])
 

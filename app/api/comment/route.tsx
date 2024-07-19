@@ -23,7 +23,7 @@ export async function POST(req:NextRequest) {
             return NextResponse.json("Unauthorized",{status:401})
         }
         checkToken(token)
-        console.log("Api/ game" + formData.get("gameid") + "user id: " + formData.get("userid"))
+       
         await comment.create({
             gameId: formData.get("gameid"),
             userId: formData.get("userid"),

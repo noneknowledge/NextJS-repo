@@ -10,7 +10,7 @@ export async function GET(req:NextRequest,{params:{slug}}:any) {
         if(!mongoose.connection.readyState){
         await ConnectDB()
         }
-        console.log(slug)
+       
         const query = {$or:[{userName:{$regex: slug, $options: 'i'}},{fullName:{$regex: slug, $options: 'i'}}]}
         const gameQuery = {$or:[{title:{$regex: slug, $options: 'i'}},{description:{$regex: slug, $options: 'i'}}]}
         const users = await player.find(query).select("userName fullName avatar")

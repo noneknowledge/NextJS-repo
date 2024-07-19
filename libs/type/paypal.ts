@@ -14,24 +14,33 @@ interface IAuthResponse {
 interface IItem {
     name:string
     quantity: 1
-    price:number
-    currency: "USD"
+    unit_amount: {
+        currency_code: "USD",
+        value:  number
+    }
+    
 }
 
 interface IAmount {
-    currency: "USD"
-    total:number
+    currency_code: "USD"
+    value:number,
+    breakdown: IBreakdown
+
+    
+}
+
+interface IBreakdown {
+    item_total: {
+        currency_code: "USD"
+        value:number,
+    }
+
 }
 
 interface IPurchaseUnit {
 
     reference_id: string
-    description?: string
-    items: IItem[] | undefined
-    redirect_urls: [{
-        "return_url":"http://localhost:3000/"
-    },{
-        "cancel_url":"http://localhost:3000/"
-    }]
+    items: IItem[] 
+    amount:IAmount
 
 }

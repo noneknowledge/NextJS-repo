@@ -70,7 +70,7 @@ const MyGames = (props:any) => {
                                 </span>
                                 <span className="tracking-wide">Experience</span>
                             </div>
-                            <ul className="list-inside space-y-2">
+                            <ul style={{height:"80vh"}} className="overflow-y-auto list-inside space-y-2">
                                 <li>
                                     <div className="text-teal-600">Owner at Her Company Inc.</div>
                                     <div className="text-gray-500 text-xs">March 2020 - Now</div>
@@ -109,7 +109,7 @@ const MyWishList = (props:any) =>{
                     </span>
                     <span className="tracking-wide">Wish list</span>
                 </div>
-                <ul className="list-inside space-y-2">
+                <ul style={{height:"80vh"}} className="list-inside space-y-2 overflow-y-auto">
                     {wishList.map((item:any,index:number)=>{
                         return(<div key={index}>
                             <Link  href={`game/${item._id}`}>
@@ -256,11 +256,13 @@ const ProfilePage = () =>{
 
                 <div className="my-4"></div>
 
-                <div className="bg-white p-3 shadow-sm rounded-sm">
+                <div className="bg-white p-3 shadow-sm rounded-sm ">
 
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-2 ">
                         <MyGames />
                         <MyWishList wishList={wishList}/>
+                     
+                        
                     </div>
 
                 </div>

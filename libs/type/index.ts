@@ -12,3 +12,9 @@ interface IinitialReducer{
     notiCount: number,
     cartCount: number,
 }
+
+interface ICart{
+    gameid:string
+    price:number
+    title:string
+}

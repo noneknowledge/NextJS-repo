@@ -69,7 +69,7 @@ export async function PATCH(req:NextRequest,{params}:any) {
         if (item.wishList.includes(id))
         {
             var temp = []
-            console.log("remove")
+            
             temp = item.wishList.filter((x:any) => x.toString() !== id)
             item.wishList = temp
         }
@@ -77,7 +77,7 @@ export async function PATCH(req:NextRequest,{params}:any) {
             item.wishList.push(id)
         }
      
-        console.log(item.wishList)
+        
 
         await item.save()
         

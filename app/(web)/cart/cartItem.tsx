@@ -1,18 +1,20 @@
 'use client'
 
-import { useCart, useLocalCart } from "@/app/customHook"
+import { useCart, useHandleStatusCode, useLocalCart } from "@/app/customHook"
 import { PayPalScriptQueryParameters } from "@paypal/paypal-js"
 import { PayPalButtons, PayPalButtonsComponentProps, PayPalScriptProvider } from "@paypal/react-paypal-js"
 import Image from "next/image"
 import Link from "next/link"
-import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
+import PayPalComponent from "./paypalButton"
 
 interface ICheckBox {
     gameid:string,
+    title:string,
     price:number,
 }
 
-const itemsContext = createContext<any>("ICheckbox")
+export const itemsContext = createContext<any>("ICheckbox")
 
 const Cart = () =>{
     
@@ -22,6 +24,7 @@ const Cart = () =>{
     const [checkboxes, setCheckBox] = useState<ICheckBox[]>([])
     const [totalPrice,setTotal] = useState(0)
     const {items,isLoading,isError} = useCart()
+    const [statusCode,setStatus] = useHandleStatusCode()
   
     
     useEffect(()=>{
@@ -32,11 +35,11 @@ const Cart = () =>{
         setTotal(total)
     },[checkboxes])
 
-    const childCheckBox = (checked:boolean,gameid:string,price:number) =>{
+    const childCheckBox = (checked:boolean,gameid:string,title:string,price:number) =>{
         
         if (checked){
            
-            setCheckBox(old=>[...old,{gameid,price}])
+            setCheckBox(old=>[...old,{gameid,title,price}])
         }
         else{
             setCheckBox(old=> old.filter((id:ICheckBox)=> id.gameid !== gameid))  
@@ -89,14 +92,14 @@ const Cart = () =>{
         <tbody>
             {items.map((game:any,index:number)=>{
 
-                return (<CartItem parentCheck={checkAll} handleCheckBox={childCheckBox} key={index} game={game} />)
+                return (<CartItem handleStatus={setStatus} parentCheck={checkAll} handleCheckBox={childCheckBox} key={index} game={game} />)
             })}
             
             
         </tbody>
     </table>
 </div>      
-            <itemsContext.Provider value={checkboxes}>
+            <itemsContext.Provider value={[checkboxes,setStatus]}>
                 <CartAction total={totalPrice}/>
             </itemsContext.Provider>
             
@@ -104,7 +107,7 @@ const Cart = () =>{
 }
 
 const CartItem = (props:any) =>{
-    const {game,handleCheckBox,parentCheck} = props
+    const {game,handleCheckBox,parentCheck,handleStatus} = props
     const id = game._id
     const {price, title, images} = game
     const [cart, setCart] = useLocalCart('user')
@@ -115,14 +118,14 @@ const CartItem = (props:any) =>{
         
     },[parentCheck])
     useEffect(()=>{
-        handleCheckBox(isChecked,id,price)
+        handleCheckBox(isChecked,id,title,price)
     },[isChecked])
 
     const remove = async(id:string) =>{
         const res = await fetch(`http://localhost:3000/api/game/${id}`,
             {method:"PATCH"})
         const message = await res.json() 
-        
+        handleStatus(res.status)
         if(message.count){
             setCart(message.count)
         }   
@@ -131,7 +134,7 @@ const CartItem = (props:any) =>{
     const checkedChange = () =>{
        
         setChecked(!isChecked)
-        handleCheckBox(isChecked,id,price)
+        handleCheckBox(isChecked,id,title,price)
       
     }
 
@@ -140,8 +143,8 @@ const CartItem = (props:any) =>{
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td className="w-4 p-4">
                     <div className="flex items-center">
-                        <input id="checkbox-table-search-1" checked={isChecked} onChange={()=>checkedChange()} type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                        <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
+                        <input id={id} checked={isChecked} onChange={()=>checkedChange()} type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                        <label htmlFor={id} className="sr-only">checkbox</label>
                     </div>
                 </td>
                 <th style={{width:"230px",height:"150px"}} scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -162,12 +165,33 @@ const CartItem = (props:any) =>{
 
 const CartAction = (props:any) =>{
     const {total} = props
-   
+    const [cart, setCart] = useLocalCart('user')
+    const [items,setStatus] = useContext(itemsContext)
+    const ref = useRef<any>({}).current;
+    ref.value = items
+
+    const removeSelected = async() =>{
+        const res = await fetch("http://localhost:3000/api/cart",{method:"PATCH",
+            body:JSON.stringify({
+                cart: ref.value,
+            }),
+        })
+        
+        const message = await res.json()
+        if(res.status === 200){
+            setCart(message.wishList.length)
+        }
+        setStatus(res.status as number)
+
+        
+        console.log(message)
+        
+    }
 
     return(<>
         <div className="p-5 my-2 rounded-lg grid grid-cols-3 gap-10 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
             <h1 className="text-white content-center">Total: <span className="font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 bg-gray-50 dark:bg-gray-700 dark:text-gray-400  hover:text-white border  ">${total} </span></h1>
-            <button type="button" className="bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Remove</button>
+            <button onClick={removeSelected} type="button" className="bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Remove</button>
             <PayPalComponent />
 
         </div>
@@ -178,62 +202,5 @@ const CartAction = (props:any) =>{
 
 
 
-const PayPalComponent = () =>{
-    
-    const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
-    const items = useContext(itemsContext)
-    const ref = useRef<any>({}).current;
-    ref.value = items
-
-    const createOrder:PayPalButtonsComponentProps["createOrder"] = async() =>{
-
-        try{
-            const response = await fetch("http://localhost:3000/api/my-paypal", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    cart: ref.value,
-                }),
-            });
- 
-            const orderData = await response.json();
-
-            if (!orderData.id) {
-                alert("No id")
-                const errorDetail = orderData?.detail[0]
-                const errorMessage = errorDetail
-                    ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
-                    : "Unexpected error occurred, please try again.";
-  
-                throw new Error(errorMessage);
-            }
-
-            return orderData.id;
-
-        }
-
-        catch(e){
-            console.error(e);
-            throw e;
-        }
-    }
-
-    if(CLIENT_ID){
-        const paypalInitOptions:PayPalScriptQueryParameters  ={
-            clientId: CLIENT_ID 
-        }
-        return(<>
-            <PayPalScriptProvider options={paypalInitOptions}>
-                <PayPalButtons createOrder={createOrder} />
-            </PayPalScriptProvider>
-            </>)
-    }
-    else{
-        return(<>
-        <h1>Client ID is missing</h1>
-        </>)
-    }
-    
-}
 
 export default Cart
