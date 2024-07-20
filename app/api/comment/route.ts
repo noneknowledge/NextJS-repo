@@ -23,6 +23,9 @@ export async function POST(req:NextRequest) {
             return NextResponse.json("Unauthorized",{status:401})
         }
         checkToken(token)
+        if(!mongoose.connection.readyState){
+            await ConnectDB()
+        }
        
         await comment.create({
             gameId: formData.get("gameid"),

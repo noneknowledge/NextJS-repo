@@ -1,5 +1,7 @@
+import ConnectDB from "@/libs/db_config";
 import { checkToken } from "@/libs/helper";
 import player from "@/models/player";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -14,6 +16,10 @@ export async function GET(req:NextRequest) {
         }
         const decode = checkToken(token)
         const {id} = decode
+        
+        if(!mongoose.connection.readyState){
+            await ConnectDB()
+        }
         const user = await player.findById(id).select("_id").populate("wishList","images title price")
         const {wishList} = user
 
@@ -42,11 +48,11 @@ export async function PATCH(req:NextRequest){
         
         const decode = checkToken(token)
         const {id} = decode
-        const user = await player.findById(id).select("_id wishList")
-        
-        if(cart.includes("668cd86eefda060c473ed833")){
-            console.log("cart include strign")
+        if(!mongoose.connection.readyState){
+            await ConnectDB()
         }
+        
+        const user = await player.findById(id).select("_id wishList")
         
         user.wishList = user.wishList.filter((gameid:any)=> !gameList.includes(gameid.toString()))
         const {wishList} = user

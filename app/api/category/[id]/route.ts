@@ -2,6 +2,8 @@
 import { NextRequest,NextResponse } from "next/server"
 import category from "@/models/category"
 import game from "@/models/game"
+import mongoose from "mongoose"
+import ConnectDB from "@/libs/db_config"
 
 
 export async function GET(req:NextRequest, {params}:any) {
@@ -9,6 +11,9 @@ export async function GET(req:NextRequest, {params}:any) {
     const {id} = params
 
     try{
+        if(!mongoose.connection.readyState){
+            await ConnectDB()
+        }
         const cate = await category.findById(id)
         const games = await game.find({categories:id})
         

@@ -16,6 +16,9 @@ export async function GET(req:NextRequest) {
         }
         const decode = checkToken(token)
         const {id} = decode
+        if(!mongoose.connection.readyState){
+            await ConnectDB()
+        }
         const user = await player.findById(id).select("userName avatar email fullName").populate("wishList","images title price").populate("game")
         .populate("friends", "userName")
 

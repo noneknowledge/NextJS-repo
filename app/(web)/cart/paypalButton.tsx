@@ -1,13 +1,17 @@
+'use client '
+
 import { useContext, useRef } from "react";
 import { itemsContext } from "./cartItem";
 import { PayPalScriptQueryParameters } from "@paypal/paypal-js"
 import { PayPalButtons, PayPalButtonsComponentProps, PayPalScriptProvider } from "@paypal/react-paypal-js"
+import { useRouter } from "next/navigation";
 
 
 const PayPalComponent = () =>{
         
     const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
     const [items,setStatus] = useContext(itemsContext)
+    const router = useRouter()
     const ref = useRef<any>({}).current;
     ref.value = items
 
@@ -50,9 +54,16 @@ const PayPalComponent = () =>{
         });
 
         const details = await response.json();
-
+        const passCode = [200,201]
+        if(passCode.includes(response.status)){
+            router.push("/payment-success")
+        }
+        else{
+            alert(`Transaction completed by ${details}`);
+            window.location.reload()
+        }
         // Show success message to buyer
-        alert(`Transaction completed by ${details}`);
+        
     };
 
     if(CLIENT_ID){

@@ -63,6 +63,9 @@ export async function PATCH(req:NextRequest,{params}:any) {
     try{
         const decode = checkToken(token)
         const userId = decode.id 
+        if(!mongoose.connection.readyState){
+            await ConnectDB()
+        }
         const item = await player.findOne({_id:userId},)
    
     

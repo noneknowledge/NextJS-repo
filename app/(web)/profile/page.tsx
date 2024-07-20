@@ -57,7 +57,7 @@ const AboutSection = (props:any) =>{
 }
 
 const MyGames = (props:any) => {
-
+    const {games} = props
     return(<>
     <div>
                             <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
@@ -70,24 +70,20 @@ const MyGames = (props:any) => {
                                 </span>
                                 <span className="tracking-wide">Experience</span>
                             </div>
-                            <ul style={{height:"80vh"}} className="overflow-y-auto list-inside space-y-2">
-                                <li>
-                                    <div className="text-teal-600">Owner at Her Company Inc.</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                                </li>
-                                <li>
-                                    <div className="text-teal-600">Owner at Her Company Inc.</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                                </li>
-                                <li>
-                                    <div className="text-teal-600">Owner at Her Company Inc.</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                                </li>
-                                <li>
-                                    <div className="text-teal-600">Owner at Her Company Inc.</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                                </li>
-                            </ul>
+                            <ul style={{height:"80vh"}} className="list-inside space-y-2 overflow-y-auto">
+                    {games.map((game:any,index:number)=>{
+                        return(<div key={index}>
+                            <Link  href={`game/${game._id}`}>
+                            <li className="py-5 grid grid-cols-4">
+                                <div>
+                                    <Image alt={game.title} width={100} height={100} src={game.images[0]} />
+                                </div>
+                                <div className="text-teal-600">{game.title}</div>                        
+                            </li>
+                            </Link>
+                        </div>)
+                    })}
+                </ul>
                         </div></>)
 
 }
@@ -259,7 +255,7 @@ const ProfilePage = () =>{
                 <div className="bg-white p-3 shadow-sm rounded-sm ">
 
                     <div className="grid grid-cols-2 ">
-                        <MyGames />
+                        <MyGames  games={game} />
                         <MyWishList wishList={wishList}/>
                      
                         
