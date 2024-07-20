@@ -4,7 +4,7 @@ import { OBJECT } from "swr/_internal";
 
 const orderDetail = new Schema({
     //fields
-    gameid:{type:Schema.ObjectId},
+    gameid:{type:Schema.ObjectId, ref:'game'},
     title: {type: String, required:true},
     price:{type:Number }, 
 },

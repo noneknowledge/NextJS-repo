@@ -67,7 +67,10 @@ export async function PATCH(req:NextRequest,{params}:any) {
             await ConnectDB()
         }
         const item = await player.findOne({_id:userId},)
-   
+        
+        if (item.game.includes(id)){
+            return NextResponse.json({message:"You're already bought this game"},{status:400})
+        }
     
         if (item.wishList.includes(id))
         {

@@ -47,11 +47,19 @@ const EachGame = (props:any) =>{
         const message = await res.json() 
         const statusCode = res.status as number
         
-        if(message.count){
-            setCart(message.count)
+        if(res.status === 400){
+            alert(message.message)
+        }
+        else{
+            if(message.count){
+                setCart(message.count)
+            }
+            
+    
+            setIStatusCode(statusCode)
         }
 
-        setIStatusCode(statusCode)
+        
     }
 
     return( <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
