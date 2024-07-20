@@ -1,8 +1,6 @@
 'use client'
 
 import { useCart, useHandleStatusCode, useLocalCart } from "@/app/customHook"
-import { PayPalScriptQueryParameters } from "@paypal/paypal-js"
-import { PayPalButtons, PayPalButtonsComponentProps, PayPalScriptProvider } from "@paypal/react-paypal-js"
 import Image from "next/image"
 import Link from "next/link"
 import { createContext, useContext, useEffect, useRef, useState } from "react"

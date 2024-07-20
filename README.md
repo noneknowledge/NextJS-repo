@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NextJS App - Typescript - Ecommerce web - Self Study
 
-## Getting Started
+## Description:
+    This project is a Ecommerce Website saling Game. Currently, this project only have some features like: create game for sale, update game, read games, add to wishlist, perform payment with PayPal API, user profile, search for games and users, basic login system with JWT.
 
-First, run the development server:
+## Run the project:
+ You can clone the project to your local machine and run the following command: ```npm install``` and then ```npm run dev```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+ But before run the ```npm run dev``` you may have to config the __.env__ file to your own value. [Go to .env section](#defined-env-file)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Defined .env file
+Currently, in this project i will have some variable such as:
+- "ENVIROMENT" : To show that if the web is run on dev or not. For dev environment the value I use is 'Dev'. It only matter when you use PayPal because I only use this in that section.
+- "CONNECTION_STRING": MongoDB connection string.
+- "SECRECT_KEY" : Your secrect key to sign a token when use JWT.
+- "NEXT_PUBLIC_CLIENT_ID" : PayPal CLIENT ID.
+- "SECRECT_KEY_1" : PayPal ClIENT SECRET.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**_NOTE:_**  I might defined and push an example for that file
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Libraries use:
+- @types/jsonwebtoken: version 9.0.6 [For more infomation about the package](#https://www.npmjs.com/package/@types/jsonwebtoken)
+- @paypal/paypal-js: version 8.1.0 [For more infomation about the package](#https://www.npmjs.com/package/@paypal/paypal-js)
+- @paypal/react-paypal-js: version 8.5.0 [For more infomation about the package](#https://www.npmjs.com/package/@paypal/react-paypal-js)
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## CSS framework:
+Tailwind CSS : For documentation and installation [Click Here](#https://tailwindcss.com/docs/installation)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
