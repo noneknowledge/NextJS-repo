@@ -26,11 +26,11 @@ const OrderItem = (props:any) => {
                             <h2 className="font-semibold text-xl leading-8 text-black mb-3 ">
                                 {item.title}</h2>
                             <p className="font-normal text-lg leading-8 text-gray-500 mb-3">
-                                Diamond Dials</p>
+                                Should add Developer Or publisher for game</p>
                             <div className="flex items-center  ">
                                 <p
                                     className="font-medium text-base leading-7 text-black pr-4 mr-4 border-r border-gray-200">
-                                    Size: <span className="text-gray-500">Regular</span></p>
+                                    Size: <span className="text-gray-500">something</span></p>
                                 <p className="font-medium text-base leading-7 text-black ">Qty: <span
                                         className="text-gray-500">1</span></p>
                             </div>
@@ -148,6 +148,7 @@ const OrderDetailPage = ({params:{orderid}}:any) =>{
     
     else{
         const {items,updatedAt} = data
+        
         const d = new Date(updatedAt);
         const longDate = d.toLocaleDateString("en-US",{year:'numeric',month:'long',day:'numeric'})        
 
@@ -184,9 +185,9 @@ const OrderDetailPage = ({params:{orderid}}:any) =>{
                     <div className="w-full border-t border-gray-200 px-6 flex flex-col lg:flex-row items-center justify-between ">
                         <div className="flex flex-col sm:flex-row items-center max-lg:border-b border-gray-200">
                             
-                            <p className="font-medium text-lg text-gray-900 pl-6 py-3 max-lg:text-center">Paid using Credit Card </p>
+                            <p className="font-medium text-lg text-gray-900 pl-6 py-3 max-lg:text-center">Paid using {data.paymentMethod}</p>
                         </div>
-                        <p className="font-semibold text-lg text-black py-6">Total Price: <span className="text-indigo-600"> $200.00</span></p>
+                        <p className="font-semibold text-lg text-black py-6">Total Price: <span className="text-indigo-600"> ${data.total}</span></p>
                     </div>
     
                 </div>

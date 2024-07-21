@@ -89,7 +89,7 @@ const UserSection = (prop:any) =>{
     
 
     const addFriend = () =>{
-        console.log("add friend")
+        alert("This feature isn't support now.")
     }
 
     const goToProfile = () =>{
